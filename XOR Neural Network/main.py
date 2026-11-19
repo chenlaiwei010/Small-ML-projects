@@ -36,14 +36,14 @@ def backprop(X, y, cache, w1, w2):
     dL_da2 = a2-y
     dL_dz2 = dL_da2 * sigmoid_derivative(a2)
     dL_dw2 = (a1.T @ dL_dz2) / m
-    dL_db2 = np.sum(dL_dz2, axis = 0, keepdims = True)
+    dL_db2 = np.sum(dL_dz2, axis = 0, keepdims = True) / m
     dL_da1 = dL_dz2 @ w2.T
     dL_dz1 = dL_da1 * sigmoid_derivative(a1)
     dL_dw1 = (X.T @ dL_dz1) / m
     dL_db1 = np.sum(dL_dz1, axis = 0, keepdims = True) / m
     return dL_dw1, dL_db1, dL_dw2, dL_db2
 
-learning_rate = 0.01
+learning_rate = 1
 iterations = 10000
 
 for i in range(iterations):
@@ -54,6 +54,7 @@ for i in range(iterations):
     w2 -= dw2 * learning_rate
     b2 -= db2 * learning_rate
 
-final_predictions, _ = forward_pass(X, w1, b1, w2, b2)
+final_predictions, _ = forward_pass(X)
 print("\nTarget y:\n", y)
 print("Predictions:\n", np.round(final_predictions, 3))
+
